@@ -9,6 +9,7 @@ import { SplatNet2API } from './SplatNet2API';
 namespace PropetyKeys {
   export const IKSM_SESSION = 'iksm_session';
   export const LATEST = 'latest';
+  export const REPORT_ENABLED = 'report_enabled';
 }
 
 namespace Abuse {
@@ -68,7 +69,10 @@ export class SplatNet2Job extends GASJob {
     return battleNumbers;
   }
 
-  private reportDisconnection(response: HTTPResponse) {
+  private reportDisconnection(response: HTTPResponse): void {
+    const reportEnabled = this.propertyManager.getProperty(PropetyKeys.REPORT_ENABLED);
+    if (reportEnabled === null) return;
+
     const result = JSON.parse(response.getContentText('UTF-8'));
     const members: Array<any> = result.my_team_members.concat(result.other_team_members);
     const reportee = members.filter(member => {
