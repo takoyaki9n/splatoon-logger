@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "tslint --fix src/**/*.ts",
-    "build": "npm run lint && rimraf dist && webpack && cpx src/appsscript.json dist",
+    "build": "npm run lint && rimraf dist && webpack && cpx 'src/**/*!(.ts)' dist",
     "deploy": "npm run build && clasp push"
   },
   "repository": {
