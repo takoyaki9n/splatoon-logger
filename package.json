@@ -1,6 +1,6 @@
 {
   "name": "gas-template",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "description": "GAS template",
   "main": "index.js",
@@ -37,5 +37,6 @@
     "typescript": "^3.0.1",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0"
-  }
+  },
+  "dependencies": {}
 }
