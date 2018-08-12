@@ -25,7 +25,7 @@ npm install
   "rootDir": "dist"
 }
 ```
-#### (Optional) Ignore `.clasp.json`
+#### Ignore `.clasp.json` (Optional)
 If you don't want to push your scriptId:
 ```bash
 git update-index --assume-unchanged .clasp.json
