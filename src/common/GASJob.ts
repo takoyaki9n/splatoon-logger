@@ -1,22 +1,23 @@
-import {PropertyManager} from './PropertyManager';
-import {Utils} from './Utils';
+import { PropertyManager } from './PropertyManager';
+import { Utils } from './Utils';
 
 namespace PropetyKeys {
-  export const LOCK = 'lock'
+  export const LOCK = 'lock';
 }
 
-export class Job {
+export class GASJob {
   protected readonly jobId: string;
   protected readonly propertyManager: PropertyManager;
 
   constructor(jobId: string) {
-    this.jobId = jobId
+    this.jobId = jobId;
     this.propertyManager = new PropertyManager(this.jobId);
   }
 
   private lock(): boolean {
     const lock = this.propertyManager.getProperty(PropetyKeys.LOCK);
-    if (lock !== null) return Utils.withLog(false, Utilities.formatString('%s: Lock failed.', this.jobId));
+    if (lock !== null)
+      return Utils.withLog(false, Utilities.formatString('%s: Lock failed.', this.jobId));
 
     this.propertyManager.setProperty(PropetyKeys.LOCK, Date.now().toString());
     return true;
@@ -34,5 +35,9 @@ export class Job {
       console.error(JSON.stringify(error));
     }
     this.unlock();
+  }
+
+  protected logEntry(message: string) {
+    return Utilities.formatString('%s: %s', this.jobId, message);
   }
 }

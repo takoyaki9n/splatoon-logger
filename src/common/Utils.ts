@@ -39,4 +39,26 @@ export class Utils {
     console.log(message);
     return v;
   }
+
+  public static lowerBound(arr: number[], n: number): number {
+    var l = 0,
+      r = arr.length - 1;
+    while (l <= r) {
+      const m = 0 | ((l + r) / 2);
+      if (arr[m] < n) l = m + 1;
+      else r = m - 1;
+    }
+    return l;
+  }
+
+  public static upperBound(arr: number[], n: number) {
+    var l = 0,
+      r = arr.length - 1;
+    while (l <= r) {
+      const m = 0 | ((l + r) / 2);
+      if (arr[m] <= n) l = m + 1;
+      else r = m - 1;
+    }
+    return l;
+  }
 }
