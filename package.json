@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "tslint --fix src/**/*.ts",
-    "build": "npm run lint && rimraf dist && webpack && cpx 'src/**/*!(.ts)' dist",
-    "deploy": "npm run build && clasp push"
+    "build": "npm run lint && rimraf dist && webpack && cpx \"src/**/!(*.ts)\" dist",
+    "push": "npm run build && clasp push"
   },
   "repository": {
     "type": "git",
