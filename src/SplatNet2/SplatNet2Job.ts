@@ -102,7 +102,8 @@ export class SplatNet2Job extends GASJob {
     if (file === null) throw new Error('Failed to save result.');
 
     this.propertyManager.setProperty(PropetyKeys.LATEST, name);
-    console.log(Utilities.formatString('Result %d is saved.', battleNumber));
+    const message = Utilities.formatString('Result %d is saved.', battleNumber);
+    console.log(this.logEntry(message));
   }
 
   private pullNextResult(): void {
