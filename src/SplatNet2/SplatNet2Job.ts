@@ -39,6 +39,7 @@ export class SplatNet2Job extends GASJob {
     super(SplatNet2Job.JOB_ID);
     this.root = Utils.getScriptFolder();
     const iksmSession = this.propertyManager.getProperty(PropetyKeys.IKSM_SESSION);
+    if (iksmSession === null) throw new Error(this.logEntry('iksm_session is not set.'));
     this.api = new SplatNet2API(iksmSession);
     this.resultFolder = Utils.getFolder(this.root, SplatNet2Job.RESULTS_FOLDER_NAME);
   }
