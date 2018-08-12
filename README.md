@@ -68,6 +68,9 @@ If you want to enable auto report of disconnection set `report_enabled@SplatNet2
 Open `Edit > Current project's triggers` or click a timer icon under the menu bar and set `pullNextResult` as a time-driven trigger.
 Recomended option is `Munites timer`, `Every 5 minutes`.
 
+## Log
+Open `View > Stackdriver logging`.
+
 ## Documents
 - [Google Apps Script reference](https://developers.google.com/apps-script/reference/)
 - [Nintendo Switch App REST API](https://github.com/ZekeSnider/NintendoSwitchRESTAPI)
