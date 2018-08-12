@@ -1,12 +1,18 @@
-import URLFetchRequestOptions = GoogleAppsScript.URL_Fetch.URLFetchRequestOptions;
+import Folder = GoogleAppsScript.Drive.Folder;
+import { JobManager } from './JobManager';
+import { API } from './API';
+import { PropetyKeys } from './PropetyKeys';
 
 declare var global: any;
 
-global.main = (): void => {
-  const url = 'http://httpbin.org/get';
-  const params: URLFetchRequestOptions = {
-    method: 'get'
-  };
-  const response = UrlFetchApp.fetch(url, params);
+global.testAPI = () => {
+  const prop = PropertiesService.getScriptProperties();
+  const api = new API(prop.getProperty(PropetyKeys.IKSM_SESSION));
+  const response = api.getResults();
   Logger.log(response.getContentText('UTF-8'));
+};
+
+global.main = (): void => {
+  const jobManager = new JobManager();
+  jobManager.downloadResult();
 };
