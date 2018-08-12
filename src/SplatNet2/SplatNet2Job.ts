@@ -1,5 +1,4 @@
 import Folder = GoogleAppsScript.Drive.Folder;
-import Properties = GoogleAppsScript.Properties.Properties;
 import HTTPResponse = GoogleAppsScript.URL_Fetch.HTTPResponse;
 
 import { GASJob } from '../common/GASJob';
