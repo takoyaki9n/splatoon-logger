@@ -1,8 +1,8 @@
 {
-  "name": "gas-template",
+  "name": "splatoon-logger",
   "version": "1.0.0",
   "private": true,
-  "description": "GAS template",
+  "description": "Splatoon Loggee",
   "main": "index.js",
   "scripts": {
     "lint": "tslint --fix src/**/*.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/takoyaki9n/gas-template.git"
+    "url": "git+https://github.com/takoyaki9n/splatoon-logger.git"
   },
   "keywords": [
     "gas",
@@ -21,9 +21,9 @@
   "author": "takoyaki9n",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/takoyaki9n/gas-template/issues"
+    "url": "https://github.com/takoyaki9n/splatoon-logger/issues"
   },
-  "homepage": "https://github.com/takoyaki9n/gas-template#readme",
+  "homepage": "https://github.com/takoyaki9n/splatoon-logger#readme",
   "devDependencies": {
     "@types/google-apps-script": "0.0.27",
     "@types/node": "^10.5.8",
