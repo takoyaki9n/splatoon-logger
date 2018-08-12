@@ -71,7 +71,7 @@ export class SplatNet2Job extends GASJob {
 
   private reportDisconnection(response: HTTPResponse): void {
     const reportEnabled = this.propertyManager.getProperty(PropetyKeys.REPORT_ENABLED);
-    if (reportEnabled === null) return;
+    if (reportEnabled === 'true') return;
 
     const result = JSON.parse(response.getContentText('UTF-8'));
     const members: Array<any> = result.my_team_members.concat(result.other_team_members);
