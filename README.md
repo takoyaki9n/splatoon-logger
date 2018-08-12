@@ -21,19 +21,19 @@ And follow the instruction.
 #### Enable Google Apps Script API
 Visit [here](https://script.google.com/home/usersettings) and enable Google Apps Script API.
 
-### Clone the repository
+### Clone this repository
 ```sh
 git clone git@github.com:takoyaki9n/splatoon-logger.git
 ```
 
 ### Install dependencies
 ```sh
-cd <project_name>
+cd splatoon-logger
 npm install
 ```
 
 ### Configuration
-#### Open `.clasp.json` and change [scriptId](https://github.com/google/clasp#scriptid-required).
+#### Open `.clasp.json` and change scriptId (see [here](https://github.com/google/clasp#scriptid-required)).
 ```json
 {
   "scriptId": "Script ID",
@@ -41,7 +41,7 @@ npm install
 }
 ```
 
-#### (Optional) Ignore `.clasp.json`
+#### Ignore `.clasp.json` (Optional)
 If you don't want to push your scriptId:
 ```bash
 git update-index --assume-unchanged .clasp.json
@@ -60,7 +60,7 @@ clasp push
 ### Set script properties
 Set following script properties from `File > Project properties > Script properties`
 #### iksm_session
-Obtaining `iksm_session` cookie (see [here](https://github.com/frozenpandaman/splatnet2statink/wiki/mitmproxy-instructions)) and save the value as `iksm_session@SplatNet2`.
+Obtain `iksm_session` cookie (see [here](https://github.com/frozenpandaman/splatnet2statink/wiki/mitmproxy-instructions)) and save the value as `iksm_session@SplatNet2`.
 #### Auto report (Optional)
 If you want to enable auto report of disconnection set `report_enabled@SplatNet2` as `true`.
 
