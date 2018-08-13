@@ -16,8 +16,10 @@ export class GASJob {
 
   private lock(): boolean {
     const lock = this.propertyManager.getProperty(PropetyKeys.LOCK);
-    if (lock !== null)
-      return Utils.withLog(false, Utilities.formatString('%s: Lock failed.', this.jobId));
+    if (lock !== null) {
+      console.error(this.logEntry('Lock failed.'));
+      return false;
+    }
 
     this.propertyManager.setProperty(PropetyKeys.LOCK, Date.now().toString());
     return true;

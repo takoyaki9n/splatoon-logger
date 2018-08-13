@@ -111,8 +111,7 @@ export class SplatNet2Job extends GASJob {
     const nextIndex = Utils.upperBound(battleNumbers, local);
     const next = battleNumbers[nextIndex];
 
-    if (battleNumbers.length <= nextIndex)
-      return Utils.withLog(null, this.logEntry('Already up-to-date.'));
+    if (battleNumbers.length <= nextIndex) return;
 
     if (battleNumbers[0] > local + 1) {
       const message = Utilities.formatString(

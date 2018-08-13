@@ -24,20 +24,11 @@ export class Utils {
     return null;
   }
 
-  public static getFileContentText(file: File): string {
-    return file != null ? file.getBlob().getDataAsString() : '';
-  }
-
   public static forEach(
     iterator: FileIterator | FolderIterator,
     fun: (item: File | Folder) => void
   ): void {
     while (iterator.hasNext()) fun(iterator.next());
-  }
-
-  public static withLog<T>(v: T, message?: any) {
-    console.log(message);
-    return v;
   }
 
   public static lowerBound(arr: number[], n: number): number {
