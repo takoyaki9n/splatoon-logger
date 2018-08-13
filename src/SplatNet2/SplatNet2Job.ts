@@ -6,7 +6,7 @@ import { Utils } from '../common/Utils';
 import { SplatNet2API } from './SplatNet2API';
 
 namespace PropetyKeys {
-  export const LOCK = 'SplatNet2Lock';
+  export const LOCK = 'splatnet2_lock';
   export const IKSM_SESSION = 'iksm_session';
   export const LATEST = 'latest';
   export const REPORT_ENABLED = 'report_enabled';
@@ -30,32 +30,33 @@ export class SplatNet2Job extends Job {
     });
   }
 
-  private readonly api: SplatNet2API;
-  private readonly resultFolder: Folder;
-
-  constructor() {
-    super(PropetyKeys.LOCK);
-    const iksmSession = this.properties.getProperty(PropetyKeys.IKSM_SESSION);
-    if (iksmSession === null) throw new Error('iksm_session is not set.');
-    this.api = new SplatNet2API(iksmSession);
-    const root = Utils.getScriptFolder();
-    this.resultFolder = Utils.getFolder(root, SplatNet2Job.RESULTS_FOLDER_NAME);
-  }
-
-  private getLocalLatestBattleNumber(): number {
-    const latest = this.properties.getProperty(PropetyKeys.LATEST);
-    var battleNumber = Number(latest);
-    if (latest === null || isNaN(battleNumber)) {
+  public static getLatestBattleNumber(): number {
+    const value = Job.PROPERTIES.getProperty(PropetyKeys.LATEST);
+    var battleNumber = Number(value);
+    if (value === null || isNaN(battleNumber)) {
       const message = Utilities.formatString(
         'Property %s is invalid: %s',
         PropetyKeys.LATEST,
-        latest
+        value
       );
       console.error(message);
       return 0;
     }
 
     return battleNumber;
+  }
+
+  private readonly api: SplatNet2API;
+  private readonly resultFolder: Folder;
+
+  constructor() {
+    super(PropetyKeys.LOCK);
+    const iksmSession = Job.PROPERTIES.getProperty(PropetyKeys.IKSM_SESSION);
+    if (iksmSession === null)
+      throw new Error(Utilities.formatString('%s is not set.', PropetyKeys.IKSM_SESSION));
+    this.api = new SplatNet2API(iksmSession);
+    const root = Utils.getScriptFolder();
+    this.resultFolder = Utils.getFolder(root, SplatNet2Job.RESULTS_FOLDER_NAME);
   }
 
   private getBattleNumbers(): number[] {
@@ -72,7 +73,7 @@ export class SplatNet2Job extends Job {
   }
 
   private reportDisconnection(response: HTTPResponse): void {
-    const reportEnabled = this.properties.getProperty(PropetyKeys.REPORT_ENABLED);
+    const reportEnabled = Job.PROPERTIES.getProperty(PropetyKeys.REPORT_ENABLED);
     if (reportEnabled !== 'true') return;
 
     const result = JSON.parse(response.getContentText('UTF-8'));
@@ -101,25 +102,26 @@ export class SplatNet2Job extends Job {
   private saveResult(response: HTTPResponse, battleNumber: number): void {
     const name = battleNumber.toString();
     const file = this.resultFolder.createFile(name, response.getContentText('UTF-8'));
-    if (file === null) throw new Error('Failed to save result.');
+    if (file === null)
+      throw new Error(Utilities.formatString('Failed to save result %d.', battleNumber));
 
-    this.properties.setProperty(PropetyKeys.LATEST, name);
+    Job.PROPERTIES.setProperty(PropetyKeys.LATEST, name);
     const message = Utilities.formatString('Result %d is saved.', battleNumber);
     console.log(message);
   }
 
   private pullNextResult(): void {
+    const latest = SplatNet2Job.getLatestBattleNumber();
     const battleNumbers = this.getBattleNumbers();
-    const local = this.getLocalLatestBattleNumber();
-    const nextIndex = Utils.upperBound(battleNumbers, local);
+    const nextIndex = Utils.upperBound(battleNumbers, latest);
     const next = battleNumbers[nextIndex];
 
     if (battleNumbers.length <= nextIndex) return;
 
-    if (battleNumbers[0] > local + 1) {
+    if (battleNumbers[0] > latest + 1) {
       const message = Utilities.formatString(
         'WARN: Results %d to %d have been expired.',
-        local + 1,
+        latest + 1,
         battleNumbers[0] - 1
       );
       console.warn(message);
@@ -132,10 +134,10 @@ export class SplatNet2Job extends Job {
       console.warn(message);
     }
 
-    if (next > local + 1) {
+    if (next > latest + 1) {
       const message = Utilities.formatString(
         'WARN: Results %d to %d are skipped.',
-        local + 1,
+        latest + 1,
         next - 1
       );
       console.warn(message);
