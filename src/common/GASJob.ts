@@ -1,32 +1,27 @@
-import { PropertyManager } from './PropertyManager';
-import { Utils } from './Utils';
-
-namespace PropetyKeys {
-  export const LOCK = 'lock';
-}
+import Properties = GoogleAppsScript.Properties.Properties;
 
 export class GASJob {
-  protected readonly jobId: string;
-  protected readonly propertyManager: PropertyManager;
+  protected readonly lockKey: string;
+  protected readonly properties: Properties;
 
-  constructor(jobId: string) {
-    this.jobId = jobId;
-    this.propertyManager = new PropertyManager(this.jobId);
+  constructor(lockKey: string) {
+    this.lockKey = lockKey;
+    this.properties = PropertiesService.getScriptProperties();
   }
 
   private lock(): boolean {
-    const lock = this.propertyManager.getProperty(PropetyKeys.LOCK);
+    const lock = this.properties.getProperty(this.lockKey);
     if (lock !== null) {
-      console.error(this.logEntry('Lock failed.'));
+      console.error(Utilities.formatString('%s: Lock failed.', this.lockKey));
       return false;
     }
 
-    this.propertyManager.setProperty(PropetyKeys.LOCK, Date.now().toString());
+    this.properties.setProperty(this.lockKey, Date.now().toString());
     return true;
   }
 
   private unlock() {
-    this.propertyManager.deleteProperty(PropetyKeys.LOCK);
+    this.properties.deleteProperty(this.lockKey);
   }
 
   protected transaction(fun: () => void): void {
@@ -37,9 +32,5 @@ export class GASJob {
       console.error(JSON.stringify(error));
     }
     this.unlock();
-  }
-
-  protected logEntry(message: string) {
-    return Utilities.formatString('%s: %s', this.jobId, message);
   }
 }

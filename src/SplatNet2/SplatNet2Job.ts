@@ -6,6 +6,7 @@ import { Utils } from '../common/Utils';
 import { SplatNet2API } from './SplatNet2API';
 
 namespace PropetyKeys {
+  export const LOCK = 'SplatNet2Lock';
   export const IKSM_SESSION = 'iksm_session';
   export const LATEST = 'latest';
   export const REPORT_ENABLED = 'report_enabled';
@@ -19,8 +20,6 @@ namespace Abuse {
 }
 
 export class SplatNet2Job extends GASJob {
-  protected static readonly JOB_ID = 'SplatNet2';
-
   private static readonly RESULTS_FOLDER_NAME = 'results';
   private static readonly RESULT_MARGIN = 10;
 
@@ -32,23 +31,27 @@ export class SplatNet2Job extends GASJob {
   }
 
   private readonly api: SplatNet2API;
-  private readonly root: Folder;
   private readonly resultFolder: Folder;
 
   constructor() {
-    super(SplatNet2Job.JOB_ID);
-    this.root = Utils.getScriptFolder();
-    const iksmSession = this.propertyManager.getProperty(PropetyKeys.IKSM_SESSION);
-    if (iksmSession === null) throw new Error(this.logEntry('iksm_session is not set.'));
+    super(PropetyKeys.LOCK);
+    const iksmSession = this.properties.getProperty(PropetyKeys.IKSM_SESSION);
+    if (iksmSession === null) throw new Error('iksm_session is not set.');
     this.api = new SplatNet2API(iksmSession);
-    this.resultFolder = Utils.getFolder(this.root, SplatNet2Job.RESULTS_FOLDER_NAME);
+    const root = Utils.getScriptFolder();
+    this.resultFolder = Utils.getFolder(root, SplatNet2Job.RESULTS_FOLDER_NAME);
   }
 
   private getLocalLatestBattleNumber(): number {
-    const latest = this.propertyManager.getProperty(PropetyKeys.LATEST);
+    const latest = this.properties.getProperty(PropetyKeys.LATEST);
     var battleNumber = Number(latest);
     if (latest === null || isNaN(battleNumber)) {
-      console.error(this.logEntry('Property latest is invalid: ' + latest));
+      const message = Utilities.formatString(
+        'Property %s is invalid: %s',
+        PropetyKeys.LATEST,
+        latest
+      );
+      console.error(message);
       return 0;
     }
 
@@ -69,7 +72,7 @@ export class SplatNet2Job extends GASJob {
   }
 
   private reportDisconnection(response: HTTPResponse): void {
-    const reportEnabled = this.propertyManager.getProperty(PropetyKeys.REPORT_ENABLED);
+    const reportEnabled = this.properties.getProperty(PropetyKeys.REPORT_ENABLED);
     if (reportEnabled !== 'true') return;
 
     const result = JSON.parse(response.getContentText('UTF-8'));
@@ -90,7 +93,7 @@ export class SplatNet2Job extends GASJob {
           result.battle_number,
           member.player.nickname
         );
-        console.log(this.logEntry(message));
+        console.log(message);
       }
     });
   }
@@ -100,9 +103,9 @@ export class SplatNet2Job extends GASJob {
     const file = this.resultFolder.createFile(name, response.getContentText('UTF-8'));
     if (file === null) throw new Error('Failed to save result.');
 
-    this.propertyManager.setProperty(PropetyKeys.LATEST, name);
+    this.properties.setProperty(PropetyKeys.LATEST, name);
     const message = Utilities.formatString('Result %d is saved.', battleNumber);
-    console.log(this.logEntry(message));
+    console.log(message);
   }
 
   private pullNextResult(): void {
@@ -119,14 +122,14 @@ export class SplatNet2Job extends GASJob {
         local + 1,
         battleNumbers[0] - 1
       );
-      console.warn(this.logEntry(message));
+      console.warn(message);
     } else if (nextIndex < SplatNet2Job.RESULT_MARGIN) {
       const message = Utilities.formatString(
         'WARN: Result %d will expire in %d games.',
         next,
         nextIndex + 1
       );
-      console.warn(this.logEntry(message));
+      console.warn(message);
     }
 
     if (next > local + 1) {
@@ -135,7 +138,7 @@ export class SplatNet2Job extends GASJob {
         local + 1,
         next - 1
       );
-      console.warn(this.logEntry(message));
+      console.warn(message);
     }
 
     const response = this.api.getResult(next);
