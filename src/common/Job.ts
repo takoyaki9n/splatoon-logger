@@ -1,6 +1,6 @@
 import Properties = GoogleAppsScript.Properties.Properties;
 
-export class GASJob {
+export class Job {
   protected readonly lockKey: string;
   protected readonly properties: Properties;
 

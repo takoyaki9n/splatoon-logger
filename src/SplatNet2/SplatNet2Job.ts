@@ -1,7 +1,7 @@
 import Folder = GoogleAppsScript.Drive.Folder;
 import HTTPResponse = GoogleAppsScript.URL_Fetch.HTTPResponse;
 
-import { GASJob } from '../common/GASJob';
+import { Job } from '../common/Job';
 import { Utils } from '../common/Utils';
 import { SplatNet2API } from './SplatNet2API';
 
@@ -19,7 +19,7 @@ namespace Abuse {
   };
 }
 
-export class SplatNet2Job extends GASJob {
+export class SplatNet2Job extends Job {
   private static readonly RESULTS_FOLDER_NAME = 'results';
   private static readonly RESULT_MARGIN = 10;
 
