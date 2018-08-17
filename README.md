@@ -60,9 +60,9 @@ clasp push
 ### Set script properties
 Set following script properties from `File > Project properties > Script properties`
 #### iksm_session
-Obtain `iksm_session` cookie (see [here](https://github.com/frozenpandaman/splatnet2statink/wiki/mitmproxy-instructions)) and save the value as `iksm_session@SplatNet2`.
+Obtain `iksm_session` cookie (see [here](https://github.com/frozenpandaman/splatnet2statink/wiki/mitmproxy-instructions)) and save the value as `iksm_session`.
 #### Auto report (Optional)
-If you want to enable auto report of disconnection set `report_enabled@SplatNet2` as `true`.
+If you want to enable auto report of disconnection set `report_enabled` as `true`.
 
 ### Set time-driven trriger
 Open `Edit > Current project's triggers` or click a timer icon under the menu bar and set `pullNextResult` as a time-driven trigger.
