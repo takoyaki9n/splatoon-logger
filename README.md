@@ -7,7 +7,19 @@ A [Google Apps Script](https://developers.google.com/apps-script/) project to do
 
 ## Getting Started
 
-### clasp
+### Create project
+#### Connect Google Apps Script to Google Drive
+Connect Google Apps Script to your Google Drive from `+ New > + Connect more apps` if this is the first time you create it.
+#### Create script and folder
+Create script and folder on your Google Drive as follows:
+```
+.
+├── Code.gs
+└── results/
+```
+You can name your script whatever you want, but cannot change the folder's name.
+
+### clasp configuration
 You can skip this section if you have already installed `clasp`.
 #### Install
 ```sh
