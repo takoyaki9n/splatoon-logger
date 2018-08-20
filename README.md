@@ -1,5 +1,5 @@
 # Splatoon Logger
-A [Google Apps Script](https://developers.google.com/apps-script/) project to download buttle data from SplatNet 2.
+A [Google Apps Script](https://developers.google.com/apps-script/) project to download battle data from SplatNet 2.
 
 ## Prerequisites
 - [Node.js](https://nodejs.org/)
