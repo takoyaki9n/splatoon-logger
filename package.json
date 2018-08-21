@@ -18,7 +18,8 @@
     "google-apps-script",
     "clasp"
   ],
-  "author": "takoyaki9n",
+  "author": {"name": "takoyaki9n", "email": "wtr816@gmail.com", "url": "https://github.com/takoyaki9n"},
+  "contributors": [],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/takoyaki9n/splatoon-logger/issues"
