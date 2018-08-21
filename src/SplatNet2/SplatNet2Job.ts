@@ -4,13 +4,7 @@ import HTTPResponse = GoogleAppsScript.URL_Fetch.HTTPResponse;
 import { Job } from '../common/Job';
 import { Utils } from '../common/Utils';
 import { SplatNet2API } from './SplatNet2API';
-
-namespace PropetyKeys {
-  export const LOCK = 'splatnet2_lock';
-  export const IKSM_SESSION = 'iksm_session';
-  export const LATEST = 'latest';
-  export const REPORT_ENABLED = 'report_enabled';
-}
+import { PropertyKeys } from '../common/PropertyKeys';
 
 namespace Abuse {
   export const DISCONNECTION = {
@@ -31,12 +25,12 @@ export class SplatNet2Job extends Job {
   }
 
   public static getLatestBattleNumber(): number {
-    const value = Job.PROPERTIES.getProperty(PropetyKeys.LATEST);
+    const value = Job.PROPERTIES.getProperty(PropertyKeys.LATEST);
     var battleNumber = Number(value);
     if (value === null || isNaN(battleNumber)) {
       const message = Utilities.formatString(
         'Property %s is invalid: %s',
-        PropetyKeys.LATEST,
+        PropertyKeys.LATEST,
         value
       );
       console.error(message);
@@ -50,10 +44,10 @@ export class SplatNet2Job extends Job {
   private readonly resultFolder: Folder;
 
   constructor() {
-    super(PropetyKeys.LOCK);
-    const iksmSession = Job.PROPERTIES.getProperty(PropetyKeys.IKSM_SESSION);
+    super(PropertyKeys.LOCK);
+    const iksmSession = Job.PROPERTIES.getProperty(PropertyKeys.IKSM_SESSION);
     if (iksmSession === null)
-      throw new Error(Utilities.formatString('%s is not set.', PropetyKeys.IKSM_SESSION));
+      throw new Error(Utilities.formatString('%s is not set.', PropertyKeys.IKSM_SESSION));
     this.api = new SplatNet2API(iksmSession);
     const root = Utils.getScriptFolder();
     this.resultFolder = Utils.getFolder(root, SplatNet2Job.RESULTS_FOLDER_NAME);
@@ -73,7 +67,7 @@ export class SplatNet2Job extends Job {
   }
 
   private reportDisconnection(response: HTTPResponse): void {
-    const reportEnabled = Job.PROPERTIES.getProperty(PropetyKeys.REPORT_ENABLED);
+    const reportEnabled = Job.PROPERTIES.getProperty(PropertyKeys.REPORT_ENABLED);
     if (reportEnabled !== 'true') return;
 
     const result = JSON.parse(response.getContentText('UTF-8'));
@@ -105,7 +99,7 @@ export class SplatNet2Job extends Job {
     if (file === null)
       throw new Error(Utilities.formatString('Failed to save result %d.', battleNumber));
 
-    Job.PROPERTIES.setProperty(PropetyKeys.LATEST, name);
+    Job.PROPERTIES.setProperty(PropertyKeys.LATEST, name);
     const message = Utilities.formatString('Result %d is saved.', battleNumber);
     console.log(message);
   }
