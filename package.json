@@ -19,7 +19,9 @@
     "clasp"
   ],
   "author": {"name": "takoyaki9n", "email": "wtr816@gmail.com", "url": "https://github.com/takoyaki9n"},
-  "contributors": [],
+  "contributors": [
+    {"name": "minus3theta", "email": "yone_j_synthesis@yahoo.co.jp", "url": "https://github.com/minus3theta"}
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/takoyaki9n/splatoon-logger/issues"
