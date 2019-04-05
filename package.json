@@ -18,9 +18,17 @@
     "google-apps-script",
     "clasp"
   ],
-  "author": {"name": "takoyaki9n", "email": "wtr816@gmail.com", "url": "https://github.com/takoyaki9n"},
+  "author": {
+    "name": "takoyaki9n",
+    "email": "wtr816@gmail.com",
+    "url": "https://github.com/takoyaki9n"
+  },
   "contributors": [
-    {"name": "minus3theta", "email": "yone_j_synthesis@yahoo.co.jp", "url": "https://github.com/minus3theta"}
+    {
+      "name": "minus3theta",
+      "email": "yone_j_synthesis@yahoo.co.jp",
+      "url": "https://github.com/minus3theta"
+    }
   ],
   "license": "MIT",
   "bugs": {
@@ -28,19 +36,19 @@
   },
   "homepage": "https://github.com/takoyaki9n/splatoon-logger#readme",
   "devDependencies": {
-    "@types/google-apps-script": "0.0.27",
-    "@types/node": "^10.5.8",
+    "@types/google-apps-script": "0.0.43",
+    "@types/node": "^11.13.0",
     "cpx": "^1.5.0",
-    "gas-webpack-plugin": "^0.3.0",
-    "prettier": "^1.14.2",
-    "rimraf": "^2.6.2",
-    "ts-loader": "^4.4.2",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.14.0",
-    "tslint-plugin-prettier": "^1.3.0",
-    "typescript": "^3.0.1",
-    "webpack": "^4.16.5",
-    "webpack-cli": "^3.1.0"
+    "gas-webpack-plugin": "^1.0.2",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3",
+    "ts-loader": "^5.3.3",
+    "tslint": "^5.15.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.4.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   },
   "dependencies": {}
 }
